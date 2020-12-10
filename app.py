@@ -16,7 +16,7 @@ infra_stack = LambdaDockerStack(
     app, 
     f"{name}-infra-stack", 
     env=aws_env, 
-    name=name,description="Lambda on custom Docker/Efs/Streamlit"
+    name=name,description="Twilio-Bot"
 )
 
 app.synth()

@@ -24,24 +24,14 @@ class LambdaDockerStack(core.Stack):
         """VPC - used in project"""
         vpc = ec2.Vpc(self, f'{name}-VPC', max_azs=2)
         
-        """Filesystem - shared between Lambda and Streamlit - Deletes when stack gets shut down"""
-        fs = efs.FileSystem(self, f'{name}-FileSystem',
-                            vpc=vpc,
-                            removal_policy=core.RemovalPolicy.DESTROY)
-
-        access_point = fs.add_access_point('AccessPoint',
-                    create_acl=efs.Acl(owner_gid='1001', owner_uid='1001', permissions='750'),
-                    path="/export/lambda",
-                    posix_user=efs.PosixUser(gid="1001", uid="1001"))
-        
+               
         """Model folder that contains Lambda code"""
         model_folder = os.path.dirname(os.path.realpath(__file__)) + "/../model"
         lambda_handler = _lambda.DockerImageFunction(self, f'{name}-Lambda',
-                    code=_lambda.DockerImageCode.from_image_asset(model_folder), #Uses local code to build the container
-                    memory_size=1024, #Adjust to your need - 128MB to 10GB
-                    timeout=core.Duration.minutes(5), #Adjust to your need - up to 15 mins
-                    vpc=vpc,
-                    filesystem=_lambda.FileSystem.from_efs_access_point(access_point, MOUNT_POINT))
+                    code=_lambda.DockerImageCode.from_image_asset(model_folder), 
+                    memory_size=128, 
+                    timeout=core.Duration.minutes(1), 
+                    vpc=vpc)
         
  
         """Custom Log groups for Lambda"""
