@@ -14,27 +14,23 @@ def lambdaHandler(event, context):
     path = event['rawPath']    
     body=json.loads(event['body'])    
     
+    """POST / messages endpoint"""
     if method == 'POST' and path == '/messages/':  
        
-        #Infere API - hook your only model etc....
+        #Infere API - hook your only model or in this case Google Translate
         translate_client = translate.Client()
-
         if isinstance(body['src'], six.binary_type):
-            text = body['src'].decode("utf-8")
-
-        # Text can also be a sequence of strings, in which case this method
-        # will return a sequence of results for each text.
-
-        if isinstance(body['src'], six.binary_type):
-            text = body['src'].decode("utf-8")
-
-        # Text can also be a sequence of strings, in which case this method
-        # will return a sequence of results for each text.
+            body['src'] = body['src'].decode("utf-8")
+            
+        if isinstance(body['dest'], six.binary_type):
+            body['dest'] = body['dest'].decode("utf-8")
+            
         result = translate_client.translate(body['input'], 
                                             target_language=body['dest'],
                                             source_language=body['src'], 
                                             model="nmt")
         
+        """Twilio Response"""
         '''
         client = Client(account_sid, auth_token)
         message = client.messages.create(
@@ -43,7 +39,7 @@ def lambdaHandler(event, context):
             body=body['input'])
             print(message.sid)
         '''        
-
+        print(result["translatedText"])
         return {'body': result["translatedText"], 'statusCode': 200}
     
     return {'body': "", 'statusCode': 404}

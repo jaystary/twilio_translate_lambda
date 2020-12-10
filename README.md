@@ -6,6 +6,20 @@ Within the Lambda one can chain a series of Requests into different APIs and the
 
 In this case we call the Google Translate API and forward the response via Twilio API to a mobile phone via SMS
 
+```
+POST Lambda endpoint
+
+Body:
+
+{"to":"+12345678",
+"input": "Hello World",
+"src": "de",
+"dest": "es"}
+
+
+
+```
+
 In order for this to work you need:
 - An AWS account + programmatic access
 Configured locally through aws configure (requires AWS CLI)
