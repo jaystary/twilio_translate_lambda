@@ -5,7 +5,7 @@
     "aws-cdk:enableDiffNoFail": "true",
     "@aws-cdk/core:stackRelativeExports": "true",
     "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true,
-    "aws-account": "AWS Account",
+    "aws-account": "072852549383",
     "name" : "twilio-bot",
     "aws-region" : "eu-central-1"
   }

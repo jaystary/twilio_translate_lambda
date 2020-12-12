@@ -6,7 +6,10 @@ Proof of concept for a Hackathon. The idea was to build a simple Q&A/Translate p
 
 For the quick implementation we used Google Translate / Twilio API. For future applications those API requests can be replaced by self-trained models and chained accordingly.
 
-POST Lambda endpoint
+In order for this to work that one can post an SMS to the Twilio API, it is required to set a webhook within Twilio to the Gateway URL and SMS have to be sent currently from the same country the registered number originates from.
+
+
+Lambda endpoint POST
 
 Body:
 
@@ -21,6 +24,7 @@ Body:
 }}
 
 ```
+
 The qa dict mocks the Question&Answer model. The response is the translated answer to the question.
 
 In order for this to work it is required to have:
