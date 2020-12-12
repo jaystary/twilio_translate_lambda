@@ -1,26 +1,29 @@
-# SMS Translation through Google Cloud Translate and Twilio
+# SMS Q&A & Translation through Google Cloud Translate and Twilio
 
-A (dockerized) Lambda that consumes a POST through an API Gateway and Lambda. 
+![Architecture](https://user-images.githubusercontent.com/34389140/101979520-fa116080-3c5d-11eb-8c2d-4b25e604c0d5.png)
 
-Within the Lambda one can chain a series of Requests into different APIs and then return a response.
+Proof of concept for a Hackathon. The idea was to build a simple Q&A/Translate pipeline for low resource languages accessible through SMS.
 
-In this case we call the Google Translate API and forward the response via Twilio API to a mobile phone via SMS
+For the quick implementation we used Google Translate / Twilio API. For future applications those API requests can be replaced by self-trained models and chained accordingly.
 
-```
 POST Lambda endpoint
 
 Body:
 
-{"to":"+12345678",
-"input": "Hello World",
-"src": "de",
-"dest": "es"}
-
-
+```
+{{"to":"+9949077424",
+"input": "Where can i find Yams",
+"src": "en",
+"dest": "ig",
+"qa": {
+    "Where can i find Yams": "You can find Yams in the next store"
+}
+}}
 
 ```
+The qa dict mocks the Question&Answer model. The response is the translated answer to the question.
 
-In order for this to work you need:
+In order for this to work it is required to have:
 - An AWS account + programmatic access
 Configured locally through aws configure (requires AWS CLI)
 
@@ -34,8 +37,8 @@ This repo utizilizes CDK for IaC on AWS for:
 - API Gateway
 - Lambda with custom container
 
-One could enable Streamlit as a UI if needed by uncommeting the relevant parts.
-
+Optional:
+- Streamlit as a UI
 
 ## What is AWS CDK
 
@@ -79,5 +82,3 @@ cdk destroy #Destroys the stack/infrastructure
 ```
 
 If you change code either in the infrastructure or in the Lambda (including dependencies) just trigger cdk deploy again
-
-To test code, just create a random script file in model/deployment and run your code with the same references as from your lambda.

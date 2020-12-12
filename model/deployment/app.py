@@ -18,6 +18,7 @@ def lambdaHandler(event, context):
     """POST / messages endpoint"""
     if method == 'POST' and path == '/messages/':  
        
+        #QA mock
         body['input'] = qa[body['input']]
         
         #Look up question, and answer and then send to Translation 
@@ -39,7 +40,7 @@ def lambdaHandler(event, context):
         client = Client(account_sid, auth_token)
         '''message = client.messages.create(
             to=body['to'], 
-            from_="+18047350925",
+            from_="Twilio number",
             body=result["translatedText"]
             )
         print(message.sid)'''
